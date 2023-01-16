@@ -1,5 +1,8 @@
 # Final Project for Security and DevOps Module : Udacity Java Web Developer Nanodegree program
 The starter code is cloned from repository: https://github.com/udacity/nd035-c4-Security-and-DevOps
+
+**Project specification** : https://github.com/akhapangee/nd035-c4-Security-and-DevOps/blob/master/Project%20Specification.pdf
+
 # eCommerce Application
 
 In this project, you'll have an opportunity to demonstrate the security and DevOps skills that you learned in this lesson by completing an eCommerce application. You'll start with a template for the complete application, and your goal will be to take this template and add proper authentication and authorization controls so users can only access their data, and that data can only be accessed in a secure way. 
