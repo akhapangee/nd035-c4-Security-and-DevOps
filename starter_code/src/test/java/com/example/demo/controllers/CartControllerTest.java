@@ -17,8 +17,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import samples.SampleData;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -42,32 +42,14 @@ public class CartControllerTest {
 
     @BeforeAll
     public static void beforeAll() {
-        user = getTestUser();
-        item = getTestItem();
+        user = SampleData.getSampleUser();
+        item = SampleData.getSampleItem();
     }
 
     @BeforeEach
     public void beforeEach() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
         when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
-    }
-
-    private static Item getTestItem() {
-        Item item = new Item();
-        item.setId(1L);
-        item.setName("Test Item");
-        item.setPrice(new BigDecimal("10.10"));
-        item.setDescription("Test Item Desc");
-        return item;
-    }
-
-    private static User getTestUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("admin");
-        user.setPassword("password1234");
-        user.setCart(new Cart());
-        return user;
     }
 
     @Test

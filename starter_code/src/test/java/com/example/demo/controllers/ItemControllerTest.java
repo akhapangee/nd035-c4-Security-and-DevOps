@@ -12,8 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import samples.SampleData;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,16 +32,7 @@ public class ItemControllerTest {
 
     @BeforeAll
     public static void beforeAll() {
-        item = getTestItem();
-    }
-
-    private static Item getTestItem() {
-        Item item = new Item();
-        item.setId(1L);
-        item.setName("Test Item");
-        item.setPrice(new BigDecimal("10.10"));
-        item.setDescription("Test Item Desc");
-        return item;
+        item = SampleData.getSampleItem();
     }
 
     @Test

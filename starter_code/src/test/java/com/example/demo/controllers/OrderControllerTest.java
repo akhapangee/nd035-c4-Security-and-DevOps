@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.persistence.Cart;
-import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.OrderRepository;
@@ -16,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import samples.SampleData;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,39 +37,12 @@ public class OrderControllerTest {
 
     @BeforeAll
     public static void init() {
-        user = getTestUser();
+        user = SampleData.getSampleUser();
     }
 
     @BeforeEach
     public void beforeEach() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
-    }
-
-    private static User getTestUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("admin");
-        user.setPassword("password1234");
-
-        Cart cart = new Cart();
-        BigDecimal total = new BigDecimal("00.00");
-        cart.setId(1L);
-        cart.setItems(Lists.newArrayList(getTestItem()));
-        cart.setUser(user);
-        cart.setTotal(total.add(getTestItem().getPrice()));
-
-        user.setCart(cart);
-
-        return user;
-    }
-
-    private static Item getTestItem() {
-        Item item = new Item();
-        item.setId(1L);
-        item.setName("Test Item");
-        item.setPrice(new BigDecimal("10.10"));
-        item.setDescription("Test Item Desc");
-        return item;
     }
 
     @Test

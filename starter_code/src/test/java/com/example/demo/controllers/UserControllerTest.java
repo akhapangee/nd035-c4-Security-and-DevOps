@@ -2,13 +2,11 @@ package com.example.demo.controllers;
 
 
 import com.example.demo.exception.ApiRequestException;
-import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import samples.SampleData;
 
 import java.util.Optional;
 
@@ -40,19 +39,9 @@ public class UserControllerTest {
 
     @BeforeAll
     public static void init() {
-        user = getTestUser();
+        user = SampleData.getSampleUser();
     }
 
-    private static User getTestUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername("admin");
-        user.setPassword("password1234");
-        user.setCart(new Cart());
-        return user;
-    }
-
-    @DisplayName("createUser")
     @Test
     public void testCreateUser() {
         when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("hashedTestPassword");
@@ -70,10 +59,9 @@ public class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Test password length and confirm password")
     public void testPasswordRequirements() {
-        CreateUserRequest request = new CreateUserRequest();
         // Check password and confirm password are not same
+        CreateUserRequest request = new CreateUserRequest();
         request.setPassword("pass1234");
         request.setConfirmPassword("pass12345");
         assertThrows(ApiRequestException.class, () -> {
