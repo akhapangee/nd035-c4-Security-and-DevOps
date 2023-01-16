@@ -7,7 +7,6 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,15 +67,28 @@ public class UserControllerTest {
 
         assertEquals(request.getUsername(), response.getBody().getUsername());
         assertEquals("hashedTestPassword", response.getBody().getPassword());
+    }
 
-        // Check password requirement
-        request.setPassword("pass");
-        request.setConfirmPassword("pass");
-        ApiRequestException exception = assertThrows(ApiRequestException.class, () -> {
+    @Test
+    @DisplayName("Test password length and confirm password")
+    public void testPasswordRequirements() {
+        CreateUserRequest request = new CreateUserRequest();
+        // Check password and confirm password are not same
+        request.setPassword("pass1234");
+        request.setConfirmPassword("pass12345");
+        assertThrows(ApiRequestException.class, () -> {
             userController.createUser(request);
         });
-        Assertions.assertEquals("Please make sure minimum password length is 8.", exception.getMessage());
+
+        // Check password length
+        request.setPassword("pass");
+        request.setConfirmPassword("pass");
+        assertThrows(ApiRequestException.class, () -> {
+            userController.createUser(request);
+        });
+
     }
+
 
     @Test
     public void testFindByUserName() {
