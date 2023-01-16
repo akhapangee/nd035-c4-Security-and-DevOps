@@ -18,14 +18,24 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Component
 public class JWTAuthenticationVerficationFilter extends BasicAuthenticationFilter {
-	
-	public JWTAuthenticationVerficationFilter(AuthenticationManager authManager) {
+
+    public JWTAuthenticationVerficationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
-	
-	@Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) 
-    		throws IOException, ServletException {
+
+    /**
+     * {@link JWTAuthenticationVerficationFilter#getAuthentication(HttpServletRequest)} reads a JWT and validates.
+     * When JWT is valid, sets the user in the Security Context and allows the request to proceed
+     *
+     * @param req
+     * @param res
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
+    @Override
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
         String header = req.getHeader(SecurityConstants.HEADER_STRING);
 
         if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
@@ -39,8 +49,8 @@ public class JWTAuthenticationVerficationFilter extends BasicAuthenticationFilte
         chain.doFilter(req, res);
     }
 
-	private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
-		String token = req.getHeader(SecurityConstants.HEADER_STRING);
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
+        String token = req.getHeader(SecurityConstants.HEADER_STRING);
         if (token != null) {
             String user = JWT.require(HMAC512(SecurityConstants.SECRET.getBytes())).build()
                     .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
@@ -51,6 +61,6 @@ public class JWTAuthenticationVerficationFilter extends BasicAuthenticationFilte
             return null;
         }
         return null;
-	}
+    }
 
 }
