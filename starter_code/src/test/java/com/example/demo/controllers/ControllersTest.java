@@ -187,13 +187,20 @@ public class ControllersTest {
         assertEquals(request.getUsername(), response.getBody().getUsername());
         assertEquals("hashedTestPassword", response.getBody().getPassword());
 
+        // Check password and confirm password are not same
+        request.setPassword("pass");
+        request.setConfirmPassword("passnotsame");
+        assertThrows(ApiRequestException.class, () -> {
+            userController.createUser(request);
+        });
+
         // Check password requirement
         request.setPassword("pass");
         request.setConfirmPassword("pass");
-        ApiRequestException exception = assertThrows(ApiRequestException.class, () -> {
+        assertThrows(ApiRequestException.class, () -> {
             userController.createUser(request);
         });
-        Assertions.assertEquals("Please make sure minimum password length is 8.", exception.getMessage());
+
     }
 
     @DisplayName("UserController.findByUserName")

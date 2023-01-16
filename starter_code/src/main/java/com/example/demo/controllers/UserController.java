@@ -46,12 +46,12 @@ public class UserController {
         Cart cart = new Cart();
         cartRepository.save(cart);
         user.setCart(cart);
-        if (createUserRequest.getPassword().length() < 9 ){
-            log.error("User '" + user.getUsername() + "' created successfully!");
+        if (createUserRequest.getPassword().length() < 9) {
+            log.error("Please make sure minimum password length is 8.");
             throw new ApiRequestException("Please make sure minimum password length is 8.");
         }
         if (!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-            log.error("User '" + user.getUsername() + "' created successfully!");
+            log.error("Password and confirmPassword are not same!");
             throw new ApiRequestException("Password and confirmPassword are not same!");
         }
         user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
