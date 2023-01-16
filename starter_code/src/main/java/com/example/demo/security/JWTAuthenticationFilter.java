@@ -21,29 +21,47 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	 private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
-    
+
+    /**
+     * Tries to authenticate the user
+     *
+     * @param req
+     * @param res
+     * @return
+     * @throws AuthenticationException
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
-    	try {
-    		User credentials = new ObjectMapper()
+        try {
+            User credentials = new ObjectMapper()
                     .readValue(req.getInputStream(), User.class);
-    		
-    		return authenticationManager.authenticate(
+
+            return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             credentials.getUsername(),
                             credentials.getPassword(),
                             new ArrayList<>()));
-    	} catch (IOException e) {
-    		throw new RuntimeException(e);
-    	}
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-    
+
+    /**
+     * if the user was authenticated successfully, returns token
+     *
+     * @param req
+     * @param res
+     * @param chain
+     * @param auth
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
