@@ -7,7 +7,10 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -41,13 +44,6 @@ public class UserControllerTest {
         user = getTestUser();
     }
 
-    @BeforeEach
-    public void beforeEach() {
-        when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("hashedTestPassword");
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-    }
-
     private static User getTestUser() {
         User user = new User();
         user.setId(1L);
@@ -60,6 +56,7 @@ public class UserControllerTest {
     @DisplayName("createUser")
     @Test
     public void testCreateUser() {
+        when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("hashedTestPassword");
         CreateUserRequest request = new CreateUserRequest();
         request.setUsername(user.getUsername());
         request.setPassword(user.getPassword());
@@ -83,6 +80,7 @@ public class UserControllerTest {
 
     @Test
     public void testFindByUserName() {
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
         ResponseEntity<User> response = userController.findByUserName(user.getUsername());
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -91,6 +89,7 @@ public class UserControllerTest {
 
     @Test
     public void testFindById() {
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
         ResponseEntity<User> response = userController.findById(user.getId());
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
