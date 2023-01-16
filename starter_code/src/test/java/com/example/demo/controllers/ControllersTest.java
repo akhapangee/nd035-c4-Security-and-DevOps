@@ -188,8 +188,8 @@ public class ControllersTest {
         assertEquals("hashedTestPassword", response.getBody().getPassword());
 
         // Check password and confirm password are not same
-        request.setPassword("pass");
-        request.setConfirmPassword("passnotsame");
+        request.setPassword("pass1234");
+        request.setConfirmPassword("pass12345");
         assertThrows(ApiRequestException.class, () -> {
             userController.createUser(request);
         });

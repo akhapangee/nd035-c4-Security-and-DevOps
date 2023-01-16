@@ -46,7 +46,7 @@ public class UserController {
         Cart cart = new Cart();
         cartRepository.save(cart);
         user.setCart(cart);
-        if (createUserRequest.getPassword().length() < 9) {
+        if (createUserRequest.getPassword().length() < 8) {
             log.error("Please make sure minimum password length is 8.");
             throw new ApiRequestException("Please make sure minimum password length is 8.");
         }
