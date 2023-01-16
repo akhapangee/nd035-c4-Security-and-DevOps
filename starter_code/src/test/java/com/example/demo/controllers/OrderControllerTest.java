@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
@@ -9,7 +8,7 @@ import com.example.demo.model.persistence.repositories.OrderRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,6 +42,11 @@ public class OrderControllerTest {
         user = getTestUser();
     }
 
+    @BeforeEach
+    public void beforeEach() {
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+    }
+
     private static User getTestUser() {
         User user = new User();
         user.setId(1L);
@@ -70,21 +74,17 @@ public class OrderControllerTest {
         return item;
     }
 
-    @DisplayName("createUser")
     @Test
     public void submitOrder() {
         ResponseEntity<UserOrder> response = orderController.submit(user.getUsername());
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        assertEquals(user.getUsername(), response.getBody().getUser());
-
+        assertEquals(user, response.getBody().getUser());
+        assertEquals(user.getCart().getItems(), response.getBody().getItems());
     }
 
     @Test
     public void getOrdersForUser() {
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
-
         UserOrder userOrder = new UserOrder();
         userOrder.setUser(user);
         userOrder.setItems(user.getCart().getItems());
