@@ -92,7 +92,6 @@ public class CartControllerTest {
     }
 
     @Test
-    @WithMockUser
     public void test_item_not_found_addTocart() {
         when(userRepository.findByUsername(any())).thenReturn(user);
         when(itemRepository.findById(any())).thenReturn(Optional.empty());
