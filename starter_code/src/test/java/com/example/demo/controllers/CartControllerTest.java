@@ -17,10 +17,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import samples.SampleData;
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -48,16 +50,15 @@ public class CartControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
-        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
+
     }
 
     @Test
     public void testAddTocart() {
-        ModifyCartRequest request = new ModifyCartRequest();
-        request.setUsername(user.getUsername());
-        request.setItemId(1L);
-        request.setQuantity(1);
+        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(itemRepository.findById(any())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
 
         ResponseEntity<Cart> response = cartController.addTocart(request);
         Assertions.assertNotNull(response);
@@ -68,15 +69,39 @@ public class CartControllerTest {
 
     @Test
     public void testRemoveFromcart() {
-        ModifyCartRequest request = new ModifyCartRequest();
-        request.setUsername(user.getUsername());
-        request.setItemId(item.getId());
-        request.setQuantity(1);
+        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(itemRepository.findById(any())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
 
         ResponseEntity<Cart> response = cartController.removeFromcart(request);
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(0, response.getBody().getItems().size());
+    }
+
+    @Test
+    public void test_user_null_addTocart() {
+        when(userRepository.findByUsername(any())).thenReturn(null);
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
+
+        ResponseEntity<Cart> response = cartController.addTocart(request);
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
+    }
+
+    @Test
+    @WithMockUser
+    public void test_item_not_found_addTocart() {
+        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(itemRepository.findById(any())).thenReturn(Optional.empty());
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
+
+        ResponseEntity<Cart> response = cartController.addTocart(request);
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+
     }
 
 }
