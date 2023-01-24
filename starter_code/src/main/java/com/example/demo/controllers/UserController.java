@@ -51,8 +51,8 @@ public class UserController {
 
         Optional<User> existingUser = Optional.ofNullable(userRepository.findByUsername(user.getUsername()));
         if (existingUser.isPresent()) {
-            log.error("Username '%s' already exists! Please login", user.getUsername());
-            throw new ApiRequestException(String.format("Username '%s' already exists! Please login", user.getUsername()));
+            log.error(String.format("Username '%s' already exists! Please login", user.getUsername()));
+            throw new ApiRequestException(String.format("Username '%s' already exists! Please login.", user.getUsername()));
         }
         if (createUserRequest.getPassword().length() < 8) {
             log.error("Please make sure minimum password length is 8.");

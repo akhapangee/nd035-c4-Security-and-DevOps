@@ -6,6 +6,7 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.CreateUserRequest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import samples.SampleData;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +45,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUser() {
+    public void test_createUser() {
         when(bCryptPasswordEncoder.encode(user.getPassword())).thenReturn("hashedTestPassword");
         CreateUserRequest request = new CreateUserRequest();
         request.setUsername(user.getUsername());
@@ -56,6 +58,20 @@ public class UserControllerTest {
 
         assertEquals(request.getUsername(), response.getBody().getUsername());
         assertEquals("hashedTestPassword", response.getBody().getPassword());
+    }
+
+    @Test
+    public void test_createUser_Already_Exists() {
+        when(userRepository.findByUsername(anyString())).thenReturn(user);
+
+        CreateUserRequest request = new CreateUserRequest();
+        request.setUsername(user.getUsername());
+        request.setPassword(user.getPassword());
+        request.setConfirmPassword(user.getPassword());
+
+        Assertions.assertThrows(ApiRequestException.class, () -> {
+            userController.createUser(request);
+        });
     }
 
     @Test
