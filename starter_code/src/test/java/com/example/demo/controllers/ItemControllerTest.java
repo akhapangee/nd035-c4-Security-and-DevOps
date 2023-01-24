@@ -47,7 +47,18 @@ public class ItemControllerTest {
     @Test
     public void getItemsByName() {
         when(itemRepository.findByName(item.getName())).thenReturn(Lists.newArrayList(item));
+
         ResponseEntity<List<Item>> response = itemController.getItemsByName(item.getName());
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(Lists.newArrayList(item), response.getBody());
+    }
+
+    @Test
+    public void test_getItems() {
+        when(itemRepository.findAll()).thenReturn(Lists.newArrayList(item));
+
+        ResponseEntity<List<Item>> response = itemController.getItems();
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(Lists.newArrayList(item), response.getBody());
