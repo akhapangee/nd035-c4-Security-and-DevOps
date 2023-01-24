@@ -9,10 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.DelegatingServletInputStream;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.test.context.support.WithUserDetails;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -33,15 +34,13 @@ public class JWTAuthenticationFilterTest {
     private FilterChain filterChain;
     @Mock
     private Authentication authentication;
-
     @Mock
-    private HttpServletRequest request;
-
+    HttpServletRequest httpServletRequest;
     @Mock
-    private HttpServletResponse response;
-
+    HttpServletResponse httpServletResponse;
     @InjectMocks
     private JWTAuthenticationFilter jwtAuthenticationFilter;
+
 
     @BeforeEach
     public void beforeEach() {
@@ -52,31 +51,33 @@ public class JWTAuthenticationFilterTest {
     @Test
     public void test_attemptAuthentication() throws IOException {
         ObjectMapper ow = new ObjectMapper();
-        System.out.println(ow.writeValueAsString(SampleData.getSampleUser()));
         byte[] jsonUserData = ow.writeValueAsBytes(SampleData.getSampleUser());
 
-        ServletInputStream servletInputStream = new DelegatingServletInputStream(
-                new ByteArrayInputStream(jsonUserData));
+        ServletInputStream servletInputStream = new DelegatingServletInputStream(new ByteArrayInputStream(jsonUserData));
 
-        when(request.getInputStream()).thenReturn(servletInputStream);
+        when(httpServletRequest.getInputStream()).thenReturn(servletInputStream);
 
         Assertions.assertDoesNotThrow(() -> {
-            jwtAuthenticationFilter.attemptAuthentication(request, response);
+            jwtAuthenticationFilter.attemptAuthentication(httpServletRequest, httpServletResponse);
         });
+
 
     }
 
 
     @Test
-    @WithUserDetails
-    public void test_successfulAuthentication() throws ServletException, IOException {
+    public void test_successfulAuthentication_and_Token_Generation() throws ServletException, IOException {
         org.springframework.security.core.userdetails.User user = new User("user", "password", Collections.emptyList());
+
+        MockHttpServletRequest request = new MockHttpServletRequest();
+
+        MockHttpServletResponse response = new MockHttpServletResponse();
 
         when(authentication.getPrincipal()).thenReturn(user);
 
-        Assertions.assertDoesNotThrow(() -> {
-            jwtAuthenticationFilter.successfulAuthentication(request, response, filterChain, authentication);
-        });
+        jwtAuthenticationFilter.successfulAuthentication(request, response, filterChain, authentication);
+
+        Assertions.assertNotNull(response.getHeader("Authorization"));
 
     }
 
