@@ -17,8 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
-import samples.SampleData;
+import com.example.demo.samples.SampleData;
 
 import java.util.Optional;
 
