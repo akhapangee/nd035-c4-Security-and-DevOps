@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/user")
@@ -46,6 +48,12 @@ public class UserController {
         Cart cart = new Cart();
         cartRepository.save(cart);
         user.setCart(cart);
+
+        Optional<User> existingUser = Optional.ofNullable(userRepository.findByUsername(user.getUsername()));
+        if (existingUser.isPresent()) {
+            log.error("Username '%s' already exists! Please login", user.getUsername());
+            throw new ApiRequestException(String.format("Username '%s' already exists! Please login", user.getUsername()));
+        }
         if (createUserRequest.getPassword().length() < 8) {
             log.error("Please make sure minimum password length is 8.");
             throw new ApiRequestException("Please make sure minimum password length is 8.");
