@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Component
-public class JWTAuthenticationVerficationFilter extends BasicAuthenticationFilter {
+public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
 
-    public JWTAuthenticationVerficationFilter(AuthenticationManager authManager) {
+    public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
         super(authManager);
     }
 
     /**
-     * {@link JWTAuthenticationVerficationFilter#getAuthentication(HttpServletRequest)} reads a JWT and validates.
+     * {@link JWTAuthenticationVerificationFilter#getAuthentication(HttpServletRequest)} reads a JWT and validates.
      * When JWT is valid, sets the user in the Security Context and allows the request to proceed
      *
      * @param req
