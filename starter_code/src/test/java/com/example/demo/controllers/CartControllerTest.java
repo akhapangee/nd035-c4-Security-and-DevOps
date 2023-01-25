@@ -7,9 +7,9 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.ItemRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.ModifyCartRequest;
+import com.example.demo.samples.SampleData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.demo.samples.SampleData;
 
 import java.util.Optional;
 
@@ -45,11 +44,6 @@ public class CartControllerTest {
     public static void beforeAll() {
         user = SampleData.getSampleUser();
         item = SampleData.getSampleItem();
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-
     }
 
     @Test
