@@ -1,5 +1,6 @@
 HELP.md
 target/
+logs/
 
 ### STS ###
 .apt_generated
@@ -18,3 +19,4 @@ target/
 
 ### Other
 .DS_Store
+
