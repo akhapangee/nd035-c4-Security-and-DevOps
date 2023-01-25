@@ -1,8 +1,8 @@
-package com.example.demo.utils;
+package com.example.demo;
 
 import java.lang.reflect.Field;
 
-public class TestUtil {
+public class TestUtils {
 
     public static void injectObject(String fieldName, Object source, Object target) {
         boolean flag = false;

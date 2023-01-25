@@ -1,6 +1,6 @@
 package com.example.demo.security;
 
-import com.example.demo.samples.SampleData;
+import com.example.demo.SampleData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

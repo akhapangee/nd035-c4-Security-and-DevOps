@@ -1,4 +1,4 @@
-package com.example.demo.samples;
+package com.example.demo;
 
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;

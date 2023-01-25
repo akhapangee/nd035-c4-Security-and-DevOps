@@ -2,8 +2,8 @@ package com.example.demo.security;
 
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.UserRepository;
-import com.example.demo.samples.SampleData;
-import com.example.demo.utils.TestUtil;
+import com.example.demo.SampleData;
+import com.example.demo.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +34,7 @@ public class UserDetailsServiceImplTest {
     @BeforeEach
     public void beforeEach() {
         userDetailsService = new UserDetailsServiceImpl();
-        TestUtil.injectObject("userRepository", userRepo, userDetailsService);
+        TestUtils.injectObject("userRepository", userRepo, userDetailsService);
     }
 
 
