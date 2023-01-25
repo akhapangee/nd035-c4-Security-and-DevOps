@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.repositories.ItemRepository;
+import com.example.demo.samples.SampleData;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,12 +13,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.demo.samples.SampleData;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemControllerTest {
@@ -37,7 +40,7 @@ public class ItemControllerTest {
 
     @Test
     public void getItemById() {
-        when(itemRepository.findById(item.getId())).thenReturn(Optional.of(item));
+        given(itemRepository.findById(any())).willReturn(Optional.of(item));
         ResponseEntity<Item> response = itemController.getItemById(item.getId());
         Assertions.assertNotNull(response);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -46,7 +49,7 @@ public class ItemControllerTest {
 
     @Test
     public void getItemsByName() {
-        when(itemRepository.findByName(item.getName())).thenReturn(Lists.newArrayList(item));
+        given(itemRepository.findByName(anyString())).willReturn(Collections.singletonList(item));
 
         ResponseEntity<List<Item>> response = itemController.getItemsByName(item.getName());
         Assertions.assertNotNull(response);
@@ -56,7 +59,7 @@ public class ItemControllerTest {
 
     @Test
     public void test_getItems() {
-        when(itemRepository.findAll()).thenReturn(Lists.newArrayList(item));
+        given(itemRepository.findAll()).willReturn(Collections.singletonList(item));
 
         ResponseEntity<List<Item>> response = itemController.getItems();
         Assertions.assertNotNull(response);

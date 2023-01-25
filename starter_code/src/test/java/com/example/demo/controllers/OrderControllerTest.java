@@ -4,7 +4,7 @@ import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.OrderRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
-import org.assertj.core.util.Lists;
+import com.example.demo.samples.SampleData;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,12 +14,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.demo.samples.SampleData;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +44,7 @@ public class OrderControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(userRepository.findByUsername(anyString())).thenReturn(user);
     }
 
     @Test
@@ -61,7 +63,7 @@ public class OrderControllerTest {
         userOrder.setItems(user.getCart().getItems());
         userOrder.setTotal(user.getCart().getTotal());
 
-        when(orderRepository.findByUser(user)).thenReturn(Lists.newArrayList(userOrder));
+        when(orderRepository.findByUser(any())).thenReturn(Collections.singletonList(userOrder));
 
         ResponseEntity<List<UserOrder>> response = orderController.getOrdersForUser(user.getUsername());
         assertNotNull(response);
