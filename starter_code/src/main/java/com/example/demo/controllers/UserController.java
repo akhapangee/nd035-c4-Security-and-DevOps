@@ -32,11 +32,13 @@ public class UserController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
+        log.info("Finding user by ID: {}", id);
         return ResponseEntity.of(userRepository.findById(id));
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<User> findByUserName(@PathVariable String username) {
+        log.info("Finding user by username: {}", username);
         User user = userRepository.findByUsername(username);
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
     }
@@ -51,20 +53,20 @@ public class UserController {
 
         Optional<User> existingUser = Optional.ofNullable(userRepository.findByUsername(user.getUsername()));
         if (existingUser.isPresent()) {
-            log.error(String.format("Username '%s' already exists! Please login", user.getUsername()));
-            throw new ApiRequestException(String.format("Username '%s' already exists! Please login.", user.getUsername()));
+            log.error("Username '{}' already exists.", user.getUsername());
+            throw new ApiRequestException(String.format("Username '%s' already exists.", user.getUsername()));
         }
         if (createUserRequest.getPassword().length() < 8) {
             log.error("Please make sure minimum password length is 8.");
             throw new ApiRequestException("Please make sure minimum password length is 8.");
         }
         if (!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-            log.error("Password and confirmPassword are not same!");
-            throw new ApiRequestException("Password and confirmPassword are not same!");
+            log.error("Password and confirmPassword are not same.");
+            throw new ApiRequestException("Password and confirmPassword are not same.");
         }
         user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
-        log.info("User '" + user.getUsername() + "' created successfully!");
+        log.info("User '{}' created successfully!", user.getUsername());
         return ResponseEntity.ok(user);
     }
 

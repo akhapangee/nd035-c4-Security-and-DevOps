@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="HOME_LOG" value="logs/app.log"/>
+    <property name="LOG_PATH" value="./logs"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -10,14 +10,27 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${HOME_LOG}</file>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/app.%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>3</maxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
         <encoder>
-            <pattern>%date %level [%thread] %logger{100} [%file:%line] %msg%n </pattern>
+            <pattern> %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{100}.%M - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="info">
+    <logger name="com.example.demo" level="info" additivity="false">
+        <appender-ref ref="FILE" />
+    </logger>
+
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE" />
     </root>
