@@ -62,14 +62,19 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
         log.info("Verifying JWT token...");
         String token = req.getHeader(SecurityConstants.HEADER_STRING);
         if (token != null) {
-            String user = JWT.require(HMAC512(SecurityConstants.SECRET.getBytes())).build()
-                    .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
-                    .getSubject();
-            if (user != null) {
-                log.info("Token verified successfully...");
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            try {
+                String user = JWT.require(HMAC512(SecurityConstants.SECRET.getBytes())).build()
+                        .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
+                        .getSubject();
+                if (user != null) {
+                    log.info("Token verified successfully...");
+                    return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+                }
+                return null;
+            } catch (Exception e) {
+                log.error("Issue found in token verification: {}", e.getMessage());
+                e.printStackTrace();
             }
-            return null;
         }
         return null;
     }
