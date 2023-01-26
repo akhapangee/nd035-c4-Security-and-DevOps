@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\":\"akhilesh\",\n    \"password\":\"confirmPassword\",\n    \"confirmPassword\":\"confirmPassword\"\n}",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"confirmPassword\",\n    \"confirmPassword\":\"confirmPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -46,7 +46,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\":\"akhilesh\",\n    \"password\":\"testPassword\"\n}",
+							"raw": "{\n    \"username\":\"user\",\n    \"password\":\"confirmPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,15 +71,9 @@
 					"name": "findByUserName",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2hpbGVzaCIsImV4cCI6MTY3NTU1Nzc2NH0.ZUV7ab-I-Wn6oKkOkGoWWKg4z-n4GkUubmBJr06G5lKfpc2syX-6UG0JSxXd1s4TEguWkYISrL2ZHyvS79yRDw",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/user/akhilesh",
+							"raw": "http://localhost:8080/api/user/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -88,7 +82,7 @@
 							"path": [
 								"api",
 								"user",
-								"akhilesh"
+								"user"
 							]
 						}
 					},
@@ -98,13 +92,7 @@
 					"name": "findById",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2hpbGVzaCIsImV4cCI6MTY3NTU1Nzc2NH0.ZUV7ab-I-Wn6oKkOkGoWWKg4z-n4GkUubmBJr06G5lKfpc2syX-6UG0JSxXd1s4TEguWkYISrL2ZHyvS79yRDw",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "http://localhost:8080/api/user/id/1",
 							"protocol": "http",
@@ -131,16 +119,10 @@
 					"name": "addTocart",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2hpbGVzaCIsImV4cCI6MTY3NDU5MTAyMX0.UJheyXrHFTFC7P7igK1wtYQ0TJ4JvfWrHNjbA0arvpK2-6XKLQ_AqLLvRZCJf49RFlNm1cfl5NJVcIZluXUTHA",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\":\"akhilesh\",\n    \"itemId\":1,\n    \"quantity\":1\n}",
+							"raw": "{\n    \"username\":\"user\",\n    \"itemId\":1,\n    \"quantity\":1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -170,7 +152,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\":\"akhilesh\",\n    \"itemId\":1,\n    \"quantity\":2\n}",
+							"raw": "{\n    \"username\":\"user\",\n    \"itemId\":1,\n    \"quantity\":2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -202,13 +184,7 @@
 					"name": "submitOrder",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2hpbGVzaCIsImV4cCI6MTY3NTU1Nzc2NH0.ZUV7ab-I-Wn6oKkOkGoWWKg4z-n4GkUubmBJr06G5lKfpc2syX-6UG0JSxXd1s4TEguWkYISrL2ZHyvS79yRDw",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "",
@@ -219,7 +195,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/order/submit/akhilesh",
+							"raw": "http://localhost:8080/api/order/submit/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -229,7 +205,7 @@
 								"api",
 								"order",
 								"submit",
-								"akhilesh"
+								"user"
 							]
 						}
 					},
@@ -242,13 +218,7 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJha2hpbGVzaCIsImV4cCI6MTY3NDU5MDYyMn0.UI8oBq3GiQGMzpZWZ8y0YxRv3xiAdtfKenRjzDYwpLh75T9bWg7Yfx-hDlE11g1onfTPCr5C2MIwdvU_vffb1g",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\":\"akhilesh\",\n    \"itemId\":1,\n    \"quantity\":1\n}",
@@ -259,7 +229,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/order/history/akhilesh",
+							"raw": "http://localhost:8080/api/order/history/user",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -269,7 +239,7 @@
 								"api",
 								"order",
 								"history",
-								"akhilesh"
+								"user"
 							]
 						}
 					},
