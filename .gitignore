@@ -19,4 +19,5 @@ logs/
 
 ### Other
 .DS_Store
+*.log
 
