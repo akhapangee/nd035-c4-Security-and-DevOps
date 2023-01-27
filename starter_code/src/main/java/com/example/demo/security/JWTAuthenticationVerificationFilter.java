@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import com.auth0.jwt.JWT;
+import com.example.demo.exception.ApiRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -73,7 +74,7 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
                 return null;
             } catch (Exception e) {
                 log.error("Issue found in token verification: {}", e.getMessage());
-                e.printStackTrace();
+                throw new ApiRequestException(String.format("Issue found in token verification: %s", e.getMessage()));
             }
         }
         return null;

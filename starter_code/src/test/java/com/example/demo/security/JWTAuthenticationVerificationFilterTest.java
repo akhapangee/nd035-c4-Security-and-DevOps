@@ -1,6 +1,7 @@
 package com.example.demo.security;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.example.demo.exception.ApiRequestException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ public class JWTAuthenticationVerificationFilterTest {
     public void test_doFilterInternal_getAuthentication_Expired_Token() throws ServletException, IOException {
         when(request.getHeader(SecurityConstants.HEADER_STRING)).thenReturn(EXPIRED_TOKEN);
 
-        Assertions.assertThrows(TokenExpiredException.class, () -> {
+        Assertions.assertThrows(ApiRequestException.class, () -> {
             verificationFilter.doFilterInternal(request, response, filterChain);
         });
 
