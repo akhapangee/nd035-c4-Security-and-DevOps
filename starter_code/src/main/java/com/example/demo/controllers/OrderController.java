@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.OrderRepository;
@@ -29,7 +30,8 @@ public class OrderController {
         log.info("Submitting order for user: {}", username);
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            return ResponseEntity.notFound().build();
+            log.error("User '{}' not found to submit order.", username);
+            throw new ApiRequestException(String.format("User '%s' not found to submit order.", username));
         }
         UserOrder order = UserOrder.createFromCart(user.getCart());
         orderRepository.save(order);
@@ -42,7 +44,8 @@ public class OrderController {
         log.info("Retrieving orders for user: {}", username);
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            return ResponseEntity.notFound().build();
+            log.error("'{}' not found to get user order history.", username);
+            throw new ApiRequestException(String.format("User '%s' not found to get user order history.", username));
         }
         return ResponseEntity.ok(orderRepository.findByUser(user));
     }
