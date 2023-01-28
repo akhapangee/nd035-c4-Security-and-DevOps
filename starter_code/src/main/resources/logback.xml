@@ -2,7 +2,7 @@
 <configuration>
     <property name="LOG_PATH" value="./logs"/>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
                 %d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{100}.%M - %msg%n
@@ -13,7 +13,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${LOG_PATH}/app.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_PATH}/archived/app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <minIndex>1</minIndex>
             <maxIndex>3</maxIndex>
         </rollingPolicy>
@@ -22,17 +22,18 @@
             <maxFileSize>10MB</maxFileSize>
         </triggeringPolicy>
         <encoder>
-            <pattern> %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{100}.%M - %msg%n</pattern>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{100}.%M - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="com.example.demo" level="info" additivity="false">
-        <appender-ref ref="FILE" />
+    <logger name="com.example.demo" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </logger>
 
     <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>
