@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import com.example.demo.SampleData;
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
@@ -7,7 +9,6 @@ import com.example.demo.model.persistence.repositories.CartRepository;
 import com.example.demo.model.persistence.repositories.ItemRepository;
 import com.example.demo.model.persistence.repositories.UserRepository;
 import com.example.demo.model.requests.ModifyCartRequest;
-import com.example.demo.SampleData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -79,8 +80,9 @@ public class CartControllerTest {
 
         ModifyCartRequest request = SampleData.getSampleCartRequest();
 
-        ResponseEntity<Cart> response = cartController.addTocart(request);
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            cartController.addTocart(request);
+        });
 
     }
 
@@ -91,8 +93,9 @@ public class CartControllerTest {
 
         ModifyCartRequest request = SampleData.getSampleCartRequest();
 
-        ResponseEntity<Cart> response = cartController.addTocart(request);
-        Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            cartController.addTocart(request);
+        });
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.exception.NotFoundException;
 import com.example.demo.model.persistence.Cart;
 import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
@@ -39,11 +40,11 @@ public class CartController {
         log.info("Adding item to cart item ID: {}, quantity: {} for user: {}", request.getItemId(), request.getQuantity(), request.getUsername());
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throwUserNotFoundException(request);
         }
         Optional<Item> item = itemRepository.findById(request.getItemId());
         if (!item.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throwItemNotFoundException(request);
         }
         Cart cart = user.getCart();
         IntStream.range(0, request.getQuantity())
@@ -59,11 +60,11 @@ public class CartController {
 
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throwUserNotFoundException(request);
         }
         Optional<Item> item = itemRepository.findById(request.getItemId());
         if (!item.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throwItemNotFoundException(request);
         }
         Cart cart = user.getCart();
         IntStream.range(0, request.getQuantity())
@@ -71,6 +72,16 @@ public class CartController {
         cartRepository.save(cart);
         log.info("Removed item: {} from the cart successfully.", item.get().getId());
         return ResponseEntity.ok(cart);
+    }
+
+    private static void throwItemNotFoundException(ModifyCartRequest request) {
+        log.error("Item ID '{}' not found.", request.getItemId());
+        throw new NotFoundException(String.format("Item ID '%s' not found.", request.getItemId()));
+    }
+
+    private static void throwUserNotFoundException(ModifyCartRequest request) {
+        log.error("Username '{}' not found.", request.getUsername());
+        throw new NotFoundException(String.format("Username '%s' not found.", request.getUsername()));
     }
 
 }
