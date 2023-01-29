@@ -56,6 +56,12 @@ public class UserController {
             log.error("Username '{}' already exists.", user.getUsername());
             throw new ApiRequestException(String.format("Username '%s' already exists.", user.getUsername()));
         }
+
+        if (createUserRequest.getPassword() == null || createUserRequest.getConfirmPassword() == null) {
+            log.error("Password or confirm password can not be empty");
+            throw new ApiRequestException("Password or confirm password can not be empty");
+        }
+
         if (createUserRequest.getPassword().length() < 8) {
             log.error("Please make sure minimum password length is 8.");
             throw new ApiRequestException("Please make sure minimum password length is 8.");
