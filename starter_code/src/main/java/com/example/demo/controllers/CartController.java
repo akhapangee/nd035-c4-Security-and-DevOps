@@ -38,13 +38,16 @@ public class CartController {
     @PostMapping("/addToCart")
     public ResponseEntity<Cart> addTocart(@RequestBody ModifyCartRequest request) {
         log.info("Adding item to cart item ID: {}, quantity: {} for user: {}", request.getItemId(), request.getQuantity(), request.getUsername());
-        User user = userRepository.findByUsername(request.getUsername());
-        if (user == null) {
-            throwUserNotFoundException(request);
-        }
+
+        User user = Optional.ofNullable(userRepository.findByUsername(request.getUsername())).orElseThrow(() -> {
+            log.error("Username '{}' not found.", request.getUsername());
+            return new NotFoundException(String.format("Username '%s' not found.", request.getUsername()));
+        });
+
         Optional<Item> item = itemRepository.findById(request.getItemId());
         if (!item.isPresent()) {
-            throwItemNotFoundException(request);
+            log.error("Item with ID '{}' not found. ", request.getItemId());
+            throw new NotFoundException(String.format("Item with ID '%s' not found. ", request.getItemId()));
         }
         Cart cart = user.getCart();
         IntStream.range(0, request.getQuantity())
@@ -58,30 +61,31 @@ public class CartController {
     public ResponseEntity<Cart> removeFromcart(@RequestBody ModifyCartRequest request) {
         log.info("Removing item from cart item ID: {}, quantity: {} for user: {}", request.getItemId(), request.getQuantity(), request.getUsername());
 
-        User user = userRepository.findByUsername(request.getUsername());
-        if (user == null) {
-            throwUserNotFoundException(request);
-        }
+        User user = Optional.ofNullable(userRepository.findByUsername(request.getUsername())).orElseThrow(() -> {
+            log.error("Username '{}' not found.", request.getUsername());
+            return new NotFoundException(String.format("Username '%s' not found.", request.getUsername()));
+        });
         Optional<Item> item = itemRepository.findById(request.getItemId());
         if (!item.isPresent()) {
-            throwItemNotFoundException(request);
+            log.error("Item with ID '{}' not found. ", request.getItemId());
+            throw new NotFoundException(String.format("Item with ID '%s' not found. ", request.getItemId()));
         }
         Cart cart = user.getCart();
+        if (cart.getItems().isEmpty()) {
+            log.error("No items in the cart to remove for user: {}", user.getUsername());
+            throw new NotFoundException(String.format("No items in the cart to remove for user: %s", user.getUsername()));
+        }
+
+        if (!cart.getItems().contains(item.get())) {
+            log.error("Item ID: {} not found in the cart for user: {}", item.get().getId(), user.getUsername());
+            throw new NotFoundException(String.format("Item ID: %d not found in the cart for user: %s", item.get().getId(), user.getUsername()));
+        }
+
         IntStream.range(0, request.getQuantity())
                 .forEach(i -> cart.removeItem(item.get()));
         cartRepository.save(cart);
-        log.info("Removed item: {} from the cart successfully.", item.get().getId());
+        log.info("Removed item: {} from the cart successfully.", item.get());
         return ResponseEntity.ok(cart);
-    }
-
-    private static void throwItemNotFoundException(ModifyCartRequest request) {
-        log.error("Item ID '{}' not found.", request.getItemId());
-        throw new NotFoundException(String.format("Item ID '%s' not found.", request.getItemId()));
-    }
-
-    private static void throwUserNotFoundException(ModifyCartRequest request) {
-        log.error("Username '{}' not found.", request.getUsername());
-        throw new NotFoundException(String.format("Username '%s' not found.", request.getUsername()));
     }
 
 }

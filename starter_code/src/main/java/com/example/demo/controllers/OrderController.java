@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import com.example.demo.exception.ApiRequestException;
+import com.example.demo.exception.NotFoundException;
+import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.UserOrder;
 import com.example.demo.model.persistence.repositories.OrderRepository;
@@ -33,6 +35,14 @@ public class OrderController {
             log.error("User '{}' not found to submit order.", username);
             throw new ApiRequestException(String.format("User '%s' not found to submit order.", username));
         }
+
+        List<Item> items = user.getCart().getItems();
+        // Do not submit empty cart
+        if (items.isEmpty()) {
+            log.error("No items in the cart for user: {}", user.getUsername());
+            throw new NotFoundException(String.format("No items in the cart for user: %s", user.getUsername()));
+        }
+
         UserOrder order = UserOrder.createFromCart(user.getCart());
         orderRepository.save(order);
         log.info("Order submitted for user: {} successfully.", username);
