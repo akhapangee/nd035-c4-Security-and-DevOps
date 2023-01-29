@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 
+import com.example.demo.SampleData;
 import com.example.demo.exception.ApiRequestException;
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.CartRepository;
@@ -16,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import com.example.demo.SampleData;
 
 import java.util.Optional;
 
@@ -76,8 +76,13 @@ public class UserControllerTest {
 
     @Test
     public void testPasswordRequirements() {
-        // Check password and confirm password are not same
         CreateUserRequest request = new CreateUserRequest();
+        // Empty password check
+        assertThrows(ApiRequestException.class, () -> {
+            userController.createUser(request);
+        });
+
+        // Check password and confirm password are not same
         request.setPassword("pass1234");
         request.setConfirmPassword("pass12345");
         assertThrows(ApiRequestException.class, () -> {
