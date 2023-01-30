@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -62,6 +63,32 @@ public class CartControllerTest {
     }
 
     @Test
+    public void test_user_null_addTocart() {
+        when(userRepository.findByUsername(any())).thenReturn(null);
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            cartController.addTocart(request);
+        });
+
+    }
+
+    @Test
+    public void test_addTocart_null_item() {
+        when(userRepository.findByUsername(any())).thenReturn(user);
+        when(itemRepository.findById(any())).thenReturn(Optional.empty());
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            cartController.addTocart(request);
+        });
+
+    }
+
+
+    @Test
     public void testRemoveFromcart() {
         when(userRepository.findByUsername(any())).thenReturn(user);
         when(itemRepository.findById(any())).thenReturn(Optional.of(item));
@@ -75,28 +102,46 @@ public class CartControllerTest {
     }
 
     @Test
-    public void test_user_null_addTocart() {
-        when(userRepository.findByUsername(any())).thenReturn(null);
-
-        ModifyCartRequest request = SampleData.getSampleCartRequest();
-
-        Assertions.assertThrows(NotFoundException.class, () -> {
-            cartController.addTocart(request);
-        });
-
-    }
-
-    @Test
-    public void test_item_not_found_addTocart() {
+    public void testRemoveFromcart_invalid_item() {
         when(userRepository.findByUsername(any())).thenReturn(user);
         when(itemRepository.findById(any())).thenReturn(Optional.empty());
 
         ModifyCartRequest request = SampleData.getSampleCartRequest();
 
         Assertions.assertThrows(NotFoundException.class, () -> {
-            cartController.addTocart(request);
+            cartController.removeFromcart(request);
+        });
+    }
+
+    @Test
+    public void testRemoveFromcart_but_if_there_is_empty_cart() {
+        User mockUser = SampleData.getSampleUser();
+        mockUser.getCart().setItems(Collections.emptyList());
+
+        // Mock: there is no items in cart added by the user and saved into database
+        when(userRepository.findByUsername(any())).thenReturn(mockUser);
+
+        // Mock: There is valid item id passed in request though
+        when(itemRepository.findById(any())).thenReturn(Optional.of(item));
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            cartController.removeFromcart(request);
         });
 
+    }
+
+    @Test
+    public void testRemoveFromcart_invalid_request_username() {
+        // Mock: request contains invalid username which will result null user
+        when(userRepository.findByUsername(any())).thenReturn(null);
+
+        ModifyCartRequest request = SampleData.getSampleCartRequest();
+
+        Assertions.assertThrows(NotFoundException.class, () -> {
+            cartController.removeFromcart(request);
+        });
     }
 
 }
