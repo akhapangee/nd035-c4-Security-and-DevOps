@@ -47,10 +47,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint((request, response, e) ->
                 {
                     response.setContentType("application/json;charset=UTF-8");
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     Map<String, Object> responseBody = new LinkedHashMap<>();
-                    responseBody.put("status", HttpStatus.FORBIDDEN);
-                    responseBody.put("error", "Access Denied");
+                    responseBody.put("status", HttpStatus.UNAUTHORIZED);
+                    responseBody.put("error", "Sorry, You're not authorized to access this resource.");
                     log.error("Request coming from :{}, status: {}, error: {}",
                             new URL(request.getRequestURL().toString()).getHost(),
                             responseBody.get("status").toString(),
