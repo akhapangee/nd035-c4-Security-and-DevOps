@@ -24,7 +24,7 @@ import java.util.stream.IntStream;
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
-    public static final Logger log = LoggerFactory.getLogger(CartController.class);
+    private static final Logger log = LoggerFactory.getLogger(CartController.class);
 
     @Autowired
     private UserRepository userRepository;

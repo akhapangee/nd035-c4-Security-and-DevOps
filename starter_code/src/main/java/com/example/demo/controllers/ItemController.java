@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/item")
 public class ItemController {
-    public static final Logger log = LoggerFactory.getLogger(ItemController.class);
+    private static final Logger log = LoggerFactory.getLogger(ItemController.class);
 
     @Autowired
     private ItemRepository itemRepository;

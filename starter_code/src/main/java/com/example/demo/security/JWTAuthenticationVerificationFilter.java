@@ -21,7 +21,7 @@ import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 @Component
 public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilter {
-    public static final Logger log = LoggerFactory.getLogger(JWTAuthenticationVerificationFilter.class);
+    private static final Logger log = LoggerFactory.getLogger(JWTAuthenticationVerificationFilter.class);
 
     public JWTAuthenticationVerificationFilter(AuthenticationManager authManager) {
         super(authManager);

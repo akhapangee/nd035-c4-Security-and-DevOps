@@ -15,7 +15,7 @@ import java.util.Collections;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    public static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     @Autowired
     private UserRepository userRepository;
 
