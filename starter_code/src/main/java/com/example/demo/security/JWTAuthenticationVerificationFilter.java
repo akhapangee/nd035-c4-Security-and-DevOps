@@ -60,7 +60,7 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
      * @return
      */
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest req) {
-        log.info("Verifying JWT token...");
+        log.info("[Token Verification]: Verifying JWT token...");
         String token = req.getHeader(SecurityConstants.HEADER_STRING);
         if (token != null) {
             try {
@@ -68,12 +68,12 @@ public class JWTAuthenticationVerificationFilter extends BasicAuthenticationFilt
                         .verify(token.replace(SecurityConstants.TOKEN_PREFIX, ""))
                         .getSubject();
                 if (user != null) {
-                    log.info("Token verified successfully...");
+                    log.info("[Token Verification]: Token verified successfully...");
                     return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
                 }
                 return null;
             } catch (Exception e) {
-                log.error("Issue found in token verification: {}", e.getMessage());
+                log.error("[Token Verification]: Issue found in token verification: {}", e.getMessage());
                 throw new ApiRequestException(String.format("Issue found in token verification: %s", e.getMessage()));
             }
         }

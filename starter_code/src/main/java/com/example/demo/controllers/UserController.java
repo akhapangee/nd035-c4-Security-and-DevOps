@@ -32,13 +32,13 @@ public class UserController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
-        log.info("Finding user by ID: {}", id);
+        log.info("Finding user by ID: '{}'", id);
         return ResponseEntity.of(userRepository.findById(id));
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<User> findByUserName(@PathVariable String username) {
-        log.info("Finding user by username: {}", username);
+        log.info("Finding user by username: '{}'", username);
         User user = userRepository.findByUsername(username);
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
     }
@@ -53,26 +53,26 @@ public class UserController {
 
         Optional<User> existingUser = Optional.ofNullable(userRepository.findByUsername(user.getUsername()));
         if (existingUser.isPresent()) {
-            log.error("Username '{}' already exists.", user.getUsername());
-            throw new ApiRequestException(String.format("Username '%s' already exists.", user.getUsername()));
+            log.error("[User Creation Failure]: Username '{}' already exists.", createUserRequest.getUsername());
+            throw new ApiRequestException(String.format("[User Creation Failure]: Username '%s' already exists.", createUserRequest.getUsername()));
         }
 
         if (createUserRequest.getPassword() == null || createUserRequest.getConfirmPassword() == null) {
-            log.error("Password or confirm password can not be empty");
-            throw new ApiRequestException("Password or confirm password can not be empty");
+            log.error("[User Creation Failure]: For username '{}' password or confirm password can not be empty", createUserRequest.getUsername());
+            throw new ApiRequestException(String.format("[User Creation Failure]: For username '%s' password or confirm password can not be empty", createUserRequest.getUsername()));
         }
 
         if (createUserRequest.getPassword().length() < 8) {
-            log.error("Please make sure minimum password length is 8.");
-            throw new ApiRequestException("Please make sure minimum password length is 8.");
+            log.error("[User Creation Failure]: For username '{}' please make sure minimum password length is 8.", createUserRequest.getUsername());
+            throw new ApiRequestException(String.format("[User Creation Failure]: For username '%s' please make sure minimum password length is 8.", createUserRequest.getUsername()));
         }
         if (!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-            log.error("Password and confirmPassword are not same.");
-            throw new ApiRequestException("Password and confirmPassword are not same.");
+            log.error("[User Creation Failure]: For username '{}' password and confirmPassword are not same.", createUserRequest.getUsername());
+            throw new ApiRequestException(String.format("[User Creation Failure]: For username '%s' password and confirmPassword are not same.", createUserRequest.getUsername()));
         }
         user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
         userRepository.save(user);
-        log.info("User '{}' created successfully!", user.getUsername());
+        log.info("[User Creation Success]: User '{}' created successfully!", user.getUsername());
         return ResponseEntity.ok(user);
     }
 

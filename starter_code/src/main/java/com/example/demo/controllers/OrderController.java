@@ -32,20 +32,20 @@ public class OrderController {
         log.info("Submitting order for user: {}", username);
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            log.error("User '{}' not found to submit order.", username);
-            throw new ApiRequestException(String.format("User '%s' not found to submit order.", username));
+            log.error("[Order Request Failure]: User '{}' not found to submit order.", username);
+            throw new ApiRequestException(String.format("[Order Request Failure]: User '%s' not found to submit order.", username));
         }
 
         List<Item> items = user.getCart().getItems();
         // Do not submit empty cart
         if (items.isEmpty()) {
-            log.error("No items in the cart for user: {}", user.getUsername());
-            throw new NotFoundException(String.format("No items in the cart for user: %s", user.getUsername()));
+            log.error("[Order Request Failure]: No items in the cart for user: {}", user.getUsername());
+            throw new NotFoundException(String.format("[Order Request Failure]: No items in the cart for user: %s", user.getUsername()));
         }
 
         UserOrder order = UserOrder.createFromCart(user.getCart());
         orderRepository.save(order);
-        log.info("Order submitted for user: {} successfully.", username);
+        log.info("[Order Request Success]: Order submitted for user: {} successfully.", username);
         return ResponseEntity.ok(order);
     }
 
@@ -54,8 +54,8 @@ public class OrderController {
         log.info("Retrieving orders for user: {}", username);
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            log.error("'{}' not found to get user order history.", username);
-            throw new ApiRequestException(String.format("User '%s' not found to get user order history.", username));
+            log.error("[Order Retrieval Failure]: '{}' not found to get user order history.", username);
+            throw new ApiRequestException(String.format("[Order Retrieval Failure]: '%s' not found to get user order history.", username));
         }
         return ResponseEntity.ok(orderRepository.findByUser(user));
     }
