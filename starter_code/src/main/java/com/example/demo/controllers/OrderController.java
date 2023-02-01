@@ -40,12 +40,12 @@ public class OrderController {
         // Do not submit empty cart
         if (items.isEmpty()) {
             log.error("[Order Request Failure]: No items in the cart for user: {}", user.getUsername());
-            throw new NotFoundException(String.format("[Order Request Failure]: No items in the cart for user: %s", user.getUsername()));
+            throw new NotFoundException(String.format("[Order Request Failure]: No items in the cart for user '%s'", user.getUsername()));
         }
 
         UserOrder order = UserOrder.createFromCart(user.getCart());
         orderRepository.save(order);
-        log.info("[Order Request Success]: Order submitted for user: {} successfully.", username);
+        log.info("[Order Request Success]: Order submitted for user '{}' successfully.", username);
         return ResponseEntity.ok(order);
     }
 
@@ -54,9 +54,11 @@ public class OrderController {
         log.info("Retrieving orders for user: {}", username);
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            log.error("[Order Retrieval Failure]: '{}' not found to get user order history.", username);
+            log.error("[Order History Failure]: '{}' not found to get user order history.", username);
             throw new ApiRequestException(String.format("[Order Retrieval Failure]: '%s' not found to get user order history.", username));
         }
-        return ResponseEntity.ok(orderRepository.findByUser(user));
+        List<UserOrder> userOrders = orderRepository.findByUser(user);
+        log.info("[Order History Success]: {} orders found for user '{}'", userOrders.size(), username);
+        return ResponseEntity.ok(userOrders);
     }
 }

@@ -32,19 +32,27 @@ public class UserController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id) {
-        log.info("Finding user by ID: '{}'", id);
-        return ResponseEntity.of(userRepository.findById(id));
+        log.info("Fetching user with id: '{}'", id);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            log.info("User with id {} found", id);
+        }
+        return ResponseEntity.of(user);
     }
 
     @GetMapping("/{username}")
     public ResponseEntity<User> findByUserName(@PathVariable String username) {
-        log.info("Finding user by username: '{}'", username);
+        log.info("Fetching user by username: '{}'", username);
         User user = userRepository.findByUsername(username);
+        if (user != null) {
+            log.info("User with username {} found", username);
+        }
         return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
     }
 
     @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
+        log.info("Executing method...");
         User user = new User();
         user.setUsername(createUserRequest.getUsername());
         Cart cart = new Cart();
