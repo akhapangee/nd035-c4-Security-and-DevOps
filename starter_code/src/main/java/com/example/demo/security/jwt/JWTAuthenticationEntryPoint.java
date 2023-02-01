@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.security.jwt;
 
 import com.example.demo.security.response.ResponseMessage;
 import org.slf4j.Logger;

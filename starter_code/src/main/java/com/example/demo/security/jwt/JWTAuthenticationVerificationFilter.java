@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.example.demo.exception.ApiRequestException;

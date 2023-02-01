@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.security.service;
 
 import com.example.demo.model.persistence.User;
 import com.example.demo.model.persistence.repositories.UserRepository;

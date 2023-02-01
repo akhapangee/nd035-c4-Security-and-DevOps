@@ -1,8 +1,8 @@
 package com.example.demo.controllers;
 
+import com.example.demo.SampleData;
 import com.example.demo.model.persistence.Item;
 import com.example.demo.model.persistence.repositories.ItemRepository;
-import com.example.demo.SampleData;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.security.jwt;
 
 import com.example.demo.SampleData;
 import com.fasterxml.jackson.databind.ObjectMapper;

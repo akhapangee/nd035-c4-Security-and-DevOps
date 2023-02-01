@@ -1,6 +1,5 @@
-package com.example.demo.security;
+package com.example.demo.security.jwt;
 
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.demo.exception.ApiRequestException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

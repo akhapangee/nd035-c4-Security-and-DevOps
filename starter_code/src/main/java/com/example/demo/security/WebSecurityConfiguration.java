@@ -1,5 +1,10 @@
 package com.example.demo.security;
 
+import com.example.demo.security.jwt.JWTAuthenticationEntryPoint;
+import com.example.demo.security.jwt.JWTAuthenticationFilter;
+import com.example.demo.security.jwt.JWTAuthenticationVerificationFilter;
+import com.example.demo.security.jwt.SecurityConstants;
+import com.example.demo.security.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
