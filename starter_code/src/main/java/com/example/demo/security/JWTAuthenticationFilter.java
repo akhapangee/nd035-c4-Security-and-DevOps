@@ -61,6 +61,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 body.setPath(request.getServletPath());
 
                 ResponseMessage.writeServletResponse(request, response, body);
+                e.printStackTrace();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
