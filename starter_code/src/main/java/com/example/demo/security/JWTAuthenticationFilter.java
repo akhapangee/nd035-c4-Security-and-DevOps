@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import com.auth0.jwt.JWT;
 import com.example.demo.model.persistence.User;
+import com.example.demo.security.response.ResponseMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,27 +34,38 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     /**
      * Tries to authenticate the user
      *
-     * @param req
-     * @param res
+     * @param request
+     * @param response
      * @return
      * @throws AuthenticationException
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         log.info("Attempting authentication...");
         try {
             User credentials = new ObjectMapper()
-                    .readValue(req.getInputStream(), User.class);
+                    .readValue(request.getInputStream(), User.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             credentials.getUsername(),
                             credentials.getPassword(),
                             new ArrayList<>()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            try {
+                log.error("Authentication failed...");
+                final ResponseMessage body = new ResponseMessage();
+                body.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                body.setError("Unauthorized");
+                body.setMessage(e.getMessage());
+                body.setPath(request.getServletPath());
+
+                ResponseMessage.writeServletResponse(request, response, body);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+        return null;
     }
 
     /**
@@ -72,7 +84,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
 
-        log.info("[Token Generation]: Generating JWT token after authentication...");
+        log.info("[Token Generation]: Generating JWT token after successful authentication...");
         String token = JWT.create()
                 .withSubject(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
