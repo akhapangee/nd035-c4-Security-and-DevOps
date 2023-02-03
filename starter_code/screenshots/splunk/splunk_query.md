@@ -1,23 +1,37 @@
-# CreateUser request successes
+# Search Commands
+## CreateUser request successes
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "User Creation Success"
+```
 
-# CreateUser request failures
+## CreateUser request failures
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "User Creation Failure"
+```
 
-# Exceptions
+## Exceptions
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "exception"
+```
 
-# Order requests successes
+## Order requests successes
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "Order Request Success"
+```
 
-# Order requests failures
+## Order requests failures
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "Order Request Failure"
+```
 
+## Create dashboard for success rate per minute of any one CreateUser and order, and take a screenshot.
 
-#Create dashboard for success rate per minute of any one CreateUser and order, and take a screenshot.
-
-##User creation success:
+### User creation success:
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "User Creation Success" | bucket _time span=1m  | stats count by _time request
+```
 
-##Order creation success:
+### Order creation success:
+```
 source="app.log" host="Akhileshs-MBP.lan" index="e-commerce_app_index" sourcetype="e-commerce-app-source" "Order Request Success" | bucket _time span=1m  | stats count by _time request
+```
