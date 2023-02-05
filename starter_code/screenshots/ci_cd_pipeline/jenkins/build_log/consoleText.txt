@@ -1,0 +1,153 @@
+Started by an SCM change
+Running as SYSTEM
+Building in workspace /var/jenkins_home/workspace/eCommerce Application Test
+[WS-CLEANUP] Deleting project workspace...
+[WS-CLEANUP] Deferred wipeout is used...
+[WS-CLEANUP] Done
+The recommended git tool is: NONE
+using credential 4b6ef207-9dfd-460a-a0e5-91a7581d55c4
+Cloning the remote Git repository
+Cloning repository https://github.com/akhapangee/nd035-c4-Security-and-DevOps.git
+ > git init /var/jenkins_home/workspace/eCommerce Application Test # timeout=10
+Fetching upstream changes from https://github.com/akhapangee/nd035-c4-Security-and-DevOps.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.36.2'
+using GIT_SSH to set credentials E-commerce Application
+Verifying host key using known hosts file
+You're using 'Known hosts file' strategy to verify ssh host keys, but your known_hosts file does not exist, please go to 'Manage Jenkins' -> 'Configure Global Security' -> 'Git Host Key Verification Configuration' and configure host key verification.
+ > git fetch --tags --force --progress -- https://github.com/akhapangee/nd035-c4-Security-and-DevOps.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url https://github.com/akhapangee/nd035-c4-Security-and-DevOps.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+Avoid second fetch
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 5ff8f80758091ea045e5d2f0c54858e4c313965e (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 5ff8f80758091ea045e5d2f0c54858e4c313965e # timeout=10
+Commit message: "Adding surefire plugin"
+ > git rev-list --no-walk cb7a6d776a05f48a31914a2a3293e985468a74c9 # timeout=10
+[eCommerce Application Test] $ mvn -f starter_code/pom.xml clean compile package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.example:auth-course >-----------------------
+[INFO] Building auth-course 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ war ]---------------------------------
+[WARNING] The artifact org.slf4j:slf4j-log4j12:jar:2.0.6 has been relocated to org.slf4j:slf4j-reload4j:jar:2.0.6
+[INFO] 
+[INFO] --- maven-clean-plugin:3.1.0:clean (default-clean) @ auth-course ---
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ auth-course ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ auth-course ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 26 source files to /var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:resources (default-resources) @ auth-course ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource
+[INFO] Copying 3 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ auth-course ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 26 source files to /var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.1.0:testResources (default-testResources) @ auth-course ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/eCommerce Application Test/starter_code/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ auth-course ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 11 source files to /var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/test-classes
+[INFO] /var/jenkins_home/workspace/eCommerce Application Test/starter_code/src/test/java/com/example/demo/TestUtils.java: /var/jenkins_home/workspace/eCommerce Application Test/starter_code/src/test/java/com/example/demo/TestUtils.java uses or overrides a deprecated API.
+[INFO] /var/jenkins_home/workspace/eCommerce Application Test/starter_code/src/test/java/com/example/demo/TestUtils.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-surefire-plugin:3.0.0-M3:test (default-test) @ auth-course ---
+[WARNING] useSystemClassloader setting has no effect when not forking
+[INFO] Running com.example.demo.security.service.UserDetailsServiceImplTest
+05-02-2023 19:59:27.655 [main] INFO  com.example.demo.security.service.UserDetailsServiceImpl.loadUserByUsername - [User Load from Storage]: Loading user by username: admin
+05-02-2023 19:59:27.709 [main] INFO  com.example.demo.security.service.UserDetailsServiceImpl.loadUserByUsername - [User Load from Storage]: Loading user by username: admin
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.548 s - in com.example.demo.security.service.UserDetailsServiceImplTest
+[INFO] Running com.example.demo.security.jwt.JWTAuthenticationFilterTest
+05-02-2023 19:59:28.220 [main] INFO  com.example.demo.security.jwt.JWTAuthenticationFilter.successfulAuthentication - [Token Generation]: Generating JWT token after successful authentication...
+05-02-2023 19:59:28.793 [main] INFO  com.example.demo.security.jwt.JWTAuthenticationFilter.attemptAuthentication - Attempting authentication...
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.113 s - in com.example.demo.security.jwt.JWTAuthenticationFilterTest
+[INFO] Running com.example.demo.security.jwt.JWTAuthenticationVerificationFilterTest
+05-02-2023 19:59:28.866 [main] INFO  com.example.demo.security.jwt.JWTAuthenticationVerificationFilter.getAuthentication - [Token Verification]: Verifying JWT token...
+05-02-2023 19:59:28.949 [main] ERROR com.example.demo.security.jwt.JWTAuthenticationVerificationFilter.getAuthentication - [Token Verification]: Issue found in token verification: The Token has expired on 2023-01-24T16:52:09Z.
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 s - in com.example.demo.security.jwt.JWTAuthenticationVerificationFilterTest
+[INFO] Running com.example.demo.controllers.UserControllerTest
+05-02-2023 19:59:29.086 [main] INFO  com.example.demo.controllers.UserController.createUser - Executing method...
+05-02-2023 19:59:29.089 [main] ERROR com.example.demo.controllers.UserController.createUser - [User Creation Failure]: For username 'null' password or confirm password can not be empty
+05-02-2023 19:59:29.090 [main] INFO  com.example.demo.controllers.UserController.createUser - Executing method...
+05-02-2023 19:59:29.091 [main] ERROR com.example.demo.controllers.UserController.createUser - [User Creation Failure]: For username 'null' password and confirmPassword are not same.
+05-02-2023 19:59:29.092 [main] INFO  com.example.demo.controllers.UserController.createUser - Executing method...
+05-02-2023 19:59:29.099 [main] ERROR com.example.demo.controllers.UserController.createUser - [User Creation Failure]: For username 'null' please make sure minimum password length is 8.
+05-02-2023 19:59:29.116 [main] INFO  com.example.demo.controllers.UserController.findById - Fetching user with id: '1'
+05-02-2023 19:59:29.119 [main] INFO  com.example.demo.controllers.UserController.findById - User with id 1 found
+05-02-2023 19:59:29.133 [main] INFO  com.example.demo.controllers.UserController.findByUserName - Fetching user by username: 'admin'
+05-02-2023 19:59:29.135 [main] INFO  com.example.demo.controllers.UserController.findByUserName - User with username admin found
+05-02-2023 19:59:29.138 [main] INFO  com.example.demo.controllers.UserController.createUser - Executing method...
+05-02-2023 19:59:29.144 [main] INFO  com.example.demo.controllers.UserController.createUser - [User Creation Success]: User 'admin' created successfully!
+05-02-2023 19:59:29.146 [main] INFO  com.example.demo.controllers.UserController.createUser - Executing method...
+05-02-2023 19:59:29.148 [main] ERROR com.example.demo.controllers.UserController.createUser - [User Creation Failure]: Username 'admin' already exists.
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.187 s - in com.example.demo.controllers.UserControllerTest
+[INFO] Running com.example.demo.controllers.ItemControllerTest
+05-02-2023 19:59:29.231 [main] INFO  com.example.demo.controllers.ItemController.getItemsByName - Retrieving item by name: Test Item
+05-02-2023 19:59:29.248 [main] INFO  com.example.demo.controllers.ItemController.getItemById - Retrieving item by ID: 1
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.097 s - in com.example.demo.controllers.ItemControllerTest
+[INFO] Running com.example.demo.controllers.OrderControllerTest
+05-02-2023 19:59:29.327 [main] INFO  com.example.demo.controllers.OrderController.submit - Submitting order for user: admin
+05-02-2023 19:59:29.330 [main] ERROR com.example.demo.controllers.OrderController.submit - [Order Request Failure]: User 'admin' not found to submit order.
+05-02-2023 19:59:29.334 [main] INFO  com.example.demo.controllers.OrderController.submit - Submitting order for user: admin
+05-02-2023 19:59:29.335 [main] ERROR com.example.demo.controllers.OrderController.submit - [Order Request Failure]: No items in the cart for user: admin
+05-02-2023 19:59:29.342 [main] INFO  com.example.demo.controllers.OrderController.submit - Submitting order for user: admin
+05-02-2023 19:59:29.342 [main] INFO  com.example.demo.controllers.OrderController.submit - [Order Request Success]: Order submitted for user 'admin' successfully.
+05-02-2023 19:59:29.345 [main] INFO  com.example.demo.controllers.OrderController.getOrdersForUser - Retrieving orders for user: admin
+05-02-2023 19:59:29.346 [main] INFO  com.example.demo.controllers.OrderController.getOrdersForUser - [Order History Success]: 1 orders found for user 'admin'
+05-02-2023 19:59:29.351 [main] INFO  com.example.demo.controllers.OrderController.getOrdersForUser - Retrieving orders for user: admin
+05-02-2023 19:59:29.352 [main] ERROR com.example.demo.controllers.OrderController.getOrdersForUser - [Order History Failure]: 'admin' not found to get user order history.
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s - in com.example.demo.controllers.OrderControllerTest
+[INFO] Running com.example.demo.controllers.CartControllerTest
+05-02-2023 19:59:29.363 [main] INFO  com.example.demo.controllers.CartController.removeFromcart - Removing item from cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.366 [main] ERROR com.example.demo.controllers.CartController.lambda$removeFromcart$2 - Username 'admin' not found.
+05-02-2023 19:59:29.377 [main] INFO  com.example.demo.controllers.CartController.removeFromcart - Removing item from cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.380 [main] INFO  com.example.demo.controllers.CartController.removeFromcart - Removed item: com.example.demo.model.persistence.Item@20 from the cart successfully.
+05-02-2023 19:59:29.386 [main] INFO  com.example.demo.controllers.CartController.addTocart - Adding item to cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.389 [main] INFO  com.example.demo.controllers.CartController.addTocart - Added item to the cart successfully.
+05-02-2023 19:59:29.396 [main] INFO  com.example.demo.controllers.CartController.addTocart - Adding item to cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.400 [main] ERROR com.example.demo.controllers.CartController.lambda$addTocart$0 - Username 'admin' not found.
+05-02-2023 19:59:29.403 [main] INFO  com.example.demo.controllers.CartController.addTocart - Adding item to cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.404 [main] ERROR com.example.demo.controllers.CartController.addTocart - Item with ID '1' not found. 
+05-02-2023 19:59:29.410 [main] INFO  com.example.demo.controllers.CartController.removeFromcart - Removing item from cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.411 [main] ERROR com.example.demo.controllers.CartController.removeFromcart - No items in the cart to remove for user: admin
+05-02-2023 19:59:29.418 [main] INFO  com.example.demo.controllers.CartController.removeFromcart - Removing item from cart item ID: 1, quantity: 1 for user: admin
+05-02-2023 19:59:29.422 [main] ERROR com.example.demo.controllers.CartController.removeFromcart - Item with ID '1' not found. 
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s - in com.example.demo.controllers.CartControllerTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- maven-war-plugin:3.2.3:war (default-war) @ auth-course ---
+[INFO] Packaging webapp
+[INFO] Assembling webapp [auth-course] in [/var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/auth-course-0.0.1-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Webapp assembled in [503 msecs]
+[INFO] Building war: /var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/auth-course-0.0.1-SNAPSHOT.war
+[INFO] 
+[INFO] --- spring-boot-maven-plugin:2.3.2.RELEASE:repackage (repackage) @ auth-course ---
+[INFO] Replacing main artifact with repackaged archive
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.690 s
+[INFO] Finished at: 2023-02-05T19:59:35Z
+[INFO] ------------------------------------------------------------------------
+[DeployPublisher][INFO] Attempting to deploy 1 war file(s)
+[DeployPublisher][INFO] Deploying /var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/auth-course-0.0.1-SNAPSHOT.war to container Tomcat 9.x Remote with context myApp
+  [/var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/auth-course-0.0.1-SNAPSHOT.war] is not deployed. Doing a fresh deployment.
+  Deploying [/var/jenkins_home/workspace/eCommerce Application Test/starter_code/target/auth-course-0.0.1-SNAPSHOT.war]
+Finished: SUCCESS
