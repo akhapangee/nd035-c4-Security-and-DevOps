@@ -83,7 +83,7 @@
      Name: Host_2 (Choose Verbose mode)  
      Source files: starter_code/target/*.war  
      Remove prefix: starter_code/target  
-     Remote directory: /opt/docker  
+     Remote directory: //opt//docker  
      Exec command[s]:  
      ```
      docker stop demo_container;  
@@ -103,5 +103,3 @@
 9. Execute Jenkins job
    Check images and containers again on the Host_2. A new demo_image and demo_container will get created through the Jenkins job.
 
-10. Access web application from the browser
-    <Host_2_Public_IP>:8888/myApp
