@@ -132,4 +132,8 @@
     # Get list of containers
     docker ps
     docker ps -a
+   
+    # Trasfer file to server
+    scp -i AWS_EC2_DemoKey.pem auth-course-0.0.1-SNAPSHOT.war ec2-user@107.21.160.114:/home/ec2-user/auth-course-0.0.1-SNAPSHOT.war
+    scp -i AWS_EC2_DemoKey.pem auth-course-0.0.1-SNAPSHOT.war host2admin@107.21.160.114:/opt/docker/auth-course-0.0.1-SNAPSHOT.war
     ```
