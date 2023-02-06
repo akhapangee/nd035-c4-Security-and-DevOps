@@ -46,7 +46,7 @@
     docker exec -it myContainer bash
     apk add maven 
    ```
-   *  Verify the jenkins page is now accessible at http://<public ip add>:8080
+   *  Verify the jenkins page is now accessible at public ip at port 8080. Example: [http://35.153.19.227:8080]()
    *  Set up admin password as per following:
     ```
     # Open the bash into the container
@@ -83,7 +83,7 @@
     # Come out of the bash, when needed
     exit
     ```
-    * View tomcat installed on http://<ip address>:8888/
+    * View tomcat installed on public ip at port 8888. Example: [http://35.153.19.227:8888/]()
     * Add user:
     ```
     # Install VIM editor because we need to edit a few files
@@ -112,20 +112,24 @@
     ./bin/shutdown.sh
     docker start myTomcatServer
     ```
-    * Login to http://<ip address>:8888/manager/html
+    * Login to tomcat. Example: [http://35.153.19.227:8888/manager/html]()
 
 7. Jenkins Setup
    * Install suggested plugins including 'Deployment to Container' and 'Maven Integration' plugins
    * Set up 'Manage Credentials'
    * Set up 'Global configurations.'
-   * Set up project.
+   * Set up project. Please refer to screenshots inside `screenshots/ci_cd_pipeline/jenkins/project_setup`
 
 8. Some useful commands:
     ```
     # start/stop container
     docker start/stop <container_id> or name
    
-   # Remove
+    # Remove
     docker container rm <container_ID>
     docker container rm 8aaa6f997d12
+   
+    # Get list of containers
+    docker ps
+    docker ps -a
     ```
