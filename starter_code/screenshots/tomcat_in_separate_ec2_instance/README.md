@@ -81,9 +81,9 @@
    * **Post Steps**  
      Add post-build steps: Choose **Send files or execute commands over SSH**  
      Name: Host_2 (Choose Verbose mode)  
-     Source files: webapp/target/*.war  
-     Remove prefix: webapp/target  
-     Remote directory: //opt//docker  
+     Source files: starter_code/target/*.war  
+     Remove prefix: starter_code/target  
+     Remote directory: /opt/docker  
      Exec command[s]:  
      ```
      docker stop demo_container;  
