@@ -67,19 +67,16 @@
    * Manage Jenkins → Manager plugins → Install "Publish over SSH" plugin
    * Manage Jenkins → Configure system → Publish over SSH → Add the new host IP address and credentials of the newly created user
 
-8. Create Jenkins job
+8. Create Jenkins job  
    Create a new job, mySecondJob (Type: **Maven project**), and configure with the following details (leaving remaining details as default):
-
 
    * **Source Code Management**  
    Repository : https://github.com/akhapangee/nd035-c4-Security-and-DevOps  
    Branches to build : */master  
 
-
    * **Build**  
    Root POM: pom.xml  
-   Goals and options: clean install package  
-   
+   Goals and options: clean install package
 
    * **Post Steps**  
      Add post-build steps: Choose **Send files or execute commands over SSH**  
