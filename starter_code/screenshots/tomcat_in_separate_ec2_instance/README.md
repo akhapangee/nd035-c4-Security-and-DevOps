@@ -1,8 +1,8 @@
 ## Overview
 * Deploy jenkins build file to a new container residing on a NEW EC2 instance
 
-1. Launch a new host EC2 instance
-   Launch a new EC2 instance, based on Amazon Linux 2 AMI and t2.small/t2.micro.
+1. Launch a new host EC2 instance  
+   Launch a new EC2 instance, based on Amazon Linux 2 AMI and t2.small/t2.micro. Let's name it Host_2, assuming we already have Jenkins running inside a container on Host_1.
 
 2. Install docker on EC2 instance
    Connect to Host_2 using SSH, and install docker:
@@ -97,15 +97,14 @@
      cd /opt/docker;
      docker build -t demo_image .
      ```
-   The commands above will remove any existing container/image with the given name, and create a fresh new image, demo_image, inside the current /opt/docker/ directory. Add another **Transfer Set**, and use the following execution command:
+     The commands above will remove any existing container/image with the given name, and create a fresh new image, demo_image, inside the current /opt/docker/ directory. Add another **Transfer Set**, and use the following execution command:
    
-`docker run -d --name demo_container -p 8888:8080 demo_image`
+      `docker run -d --name demo_container -p 8888:8080 demo_image`
 
-   The command above will create a new container, demo_container using the demo_image created in the previous command.
+     The command above will create a new container, demo_container using the demo_image created in the previous command.
 
 9. Execute Jenkins job
-   Check images and containers again on the EC2 Instance. A new demo_image and demo_container will get created through the Jenkins job.
-
+   Check images and containers again on the Host_2. A new demo_image and demo_container will get created through the Jenkins job.
 
 10. Access web application from the browser
     <Host_2_Public_IP>:8888/myApp
